@@ -27,4 +27,7 @@ func TestAnalyzer(t *testing.T) {
 	t.Run("funcs", func(t *testing.T) {
 		analysistest.Run(t, testdata, isUsePointer.Analyzer, "funcs")
 	})
+	t.Run("methods_reverse", func(t *testing.T) {
+		analysistest.Run(t, testdata, isUsePointer.Analyzer, "methods_reverse")
+	})
 }

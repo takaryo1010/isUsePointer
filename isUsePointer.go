@@ -21,6 +21,11 @@ var Analyzer = &analysis.Analyzer{
 	},
 }
 
+type isUsePointerResult struct {
+	count_use     bool
+	count_not_use bool
+}
+
 func run(pass *analysis.Pass) (any, error) {
 	inspect := pass.ResultOf[inspect.Analyzer].(*inspector.Inspector)
 
@@ -28,13 +33,7 @@ func run(pass *analysis.Pass) (any, error) {
 		(*ast.FuncDecl)(nil),
 	}
 	info := pass.TypesInfo
-	// info := &types.Info{
-	// 	Types:      make(map[ast.Expr]types.TypeAndValue),
-	// 	Defs:       make(map[*ast.Ident]types.Object),
-	// 	Uses:       make(map[*ast.Ident]types.Object),
-	// 	Selections: make(map[*ast.SelectorExpr]*types.Selection),
-	// 	Scopes:     make(map[ast.Node]*types.Scope),
-	// }
+	res := isUsePointerResult{false, false}
 
 	inspect.Preorder(nodeFilter, func(n ast.Node) {
 		switch n := n.(type) {
@@ -42,13 +41,24 @@ func run(pass *analysis.Pass) (any, error) {
 			switch IsReceiverPointer(n, info) {
 
 			case 1:
-				pass.Reportf(n.Pos(), "use pointer")
+				res.count_use = true
+				if res.count_not_use {
+					pass.Reportf(n.Pos(), "Mixed use and non-use of pointers")
+				} else {
+					pass.Reportf(n.Pos(), "use pointer")
+				}
+
 			case 2:
-				pass.Reportf(n.Pos(), "not use pointer")
+				res.count_not_use = true
+				if res.count_use {
+					pass.Reportf(n.Pos(), "Mixed use and non-use of pointers")
+				} else {
+					pass.Reportf(n.Pos(), "not use pointer")
+				}
+
 			}
 		}
 	})
-
 	return nil, nil
 }
 func IsReceiverPointer(method *ast.FuncDecl, info *types.Info) int {

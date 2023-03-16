@@ -8,7 +8,7 @@ func (p *Calc) Add() int { // want "use pointer"
 func (p *Calc) Sub() int { // want "use pointer"
 	return p.atai1 - p.atai2
 }
-func (p Calc) Mul() int { // want "not use pointer"
+func (p Calc) Mul() int { // want "Mixed use and non-use of pointers"
 	return p.atai1 * p.atai2
 }
 
