@@ -1,4 +1,4 @@
-package noFuncs
+package noMethods
 
 type Calc struct{ atai1, atai2 int }
 

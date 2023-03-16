@@ -15,13 +15,16 @@ func TestAnalyzer(t *testing.T) {
 	t.Run("a", func(t *testing.T) {
 		analysistest.Run(t, testdata, isUsePointer.Analyzer, "a")
 	})
-	t.Run("funcs", func(t *testing.T) {
-		analysistest.Run(t, testdata, isUsePointer.Analyzer, "funcs")
+	t.Run("methods", func(t *testing.T) {
+		analysistest.Run(t, testdata, isUsePointer.Analyzer, "methods")
 	})
-	t.Run("noFuncs", func(t *testing.T) {
-		analysistest.Run(t, testdata, isUsePointer.Analyzer, "noFuncs")
+	t.Run("noMethods", func(t *testing.T) {
+		analysistest.Run(t, testdata, isUsePointer.Analyzer, "noMethods")
 	})
 	t.Run("noPointer", func(t *testing.T) {
 		analysistest.Run(t, testdata, isUsePointer.Analyzer, "noPointer")
+	})
+	t.Run("funcs", func(t *testing.T) {
+		analysistest.Run(t, testdata, isUsePointer.Analyzer, "funcs")
 	})
 }

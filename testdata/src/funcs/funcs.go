@@ -2,14 +2,8 @@ package funcs
 
 type Calc struct{ atai1, atai2 int }
 
-func (p *Calc) Add() int { // want "use pointer"
+func Add(p *Calc) int { 
 	return p.atai1 + p.atai2
-}
-func (p *Calc) Sub() int { // want "use pointer"
-	return p.atai1 - p.atai2
-}
-func (p Calc) Mul() int { // want "not use pointer"
-	return p.atai1 * p.atai2
 }
 
 func NewCalc() Calc {
