@@ -27,13 +27,15 @@ func run(pass *analysis.Pass) (any, error) {
 	nodeFilter := []ast.Node{
 		(*ast.FuncDecl)(nil),
 	}
-	info := &types.Info{
-		Types:      make(map[ast.Expr]types.TypeAndValue),
-		Defs:       make(map[*ast.Ident]types.Object),
-		Uses:       make(map[*ast.Ident]types.Object),
-		Selections: make(map[*ast.SelectorExpr]*types.Selection),
-		Scopes:     make(map[ast.Node]*types.Scope),
-	}
+	info := pass.TypesInfo
+	// info := &types.Info{
+	// 	Types:      make(map[ast.Expr]types.TypeAndValue),
+	// 	Defs:       make(map[*ast.Ident]types.Object),
+	// 	Uses:       make(map[*ast.Ident]types.Object),
+	// 	Selections: make(map[*ast.SelectorExpr]*types.Selection),
+	// 	Scopes:     make(map[ast.Node]*types.Scope),
+	// }
+
 	inspect.Preorder(nodeFilter, func(n ast.Node) {
 		switch n := n.(type) {
 		case *ast.FuncDecl:
