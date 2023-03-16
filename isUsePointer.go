@@ -39,25 +39,32 @@ func run(pass *analysis.Pass) (any, error) {
 	inspect.Preorder(nodeFilter, func(n ast.Node) {
 		switch n := n.(type) {
 		case *ast.FuncDecl:
-			if IsReceiverPointer(n, info) {
+			switch IsReceiverPointer(n, info) {
+
+			case 1:
 				pass.Reportf(n.Pos(), "use pointer")
+			case 2:
+				pass.Reportf(n.Pos(), "not use pointer")
 			}
 		}
 	})
 
 	return nil, nil
 }
-func IsReceiverPointer(method *ast.FuncDecl, info *types.Info) bool {
+func IsReceiverPointer(method *ast.FuncDecl, info *types.Info) int {
 	if method.Recv == nil {
-		return false
+		return 0
 	}
 
 	recv := method.Recv.List[0].Type
 	recvType := info.TypeOf(recv)
 	if recvType == nil {
-		return false
+		return 0
 	}
 
 	_, isPointer := recvType.Underlying().(*types.Pointer)
-	return isPointer
+	if isPointer {
+		return 1
+	}
+	return 2
 }

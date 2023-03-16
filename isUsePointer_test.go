@@ -18,4 +18,10 @@ func TestAnalyzer(t *testing.T) {
 	t.Run("funcs", func(t *testing.T) {
 		analysistest.Run(t, testdata, isUsePointer.Analyzer, "funcs")
 	})
+	t.Run("noFuncs", func(t *testing.T) {
+		analysistest.Run(t, testdata, isUsePointer.Analyzer, "noFuncs")
+	})
+	t.Run("noPointer", func(t *testing.T) {
+		analysistest.Run(t, testdata, isUsePointer.Analyzer, "noPointer")
+	})
 }
