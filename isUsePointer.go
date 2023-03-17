@@ -9,7 +9,7 @@ import (
 	"golang.org/x/tools/go/ast/inspector"
 )
 
-const doc = "isUsePointer is ..."
+const doc = "isUsePointer checks if the receiver of a method in your code is a pointer receiver mixed with a value receiver."
 
 // Analyzer is ...
 var Analyzer = &analysis.Analyzer{
@@ -21,6 +21,7 @@ var Analyzer = &analysis.Analyzer{
 	},
 }
 
+// 結果を保存するための構造体
 type isUsePointerResult struct {
 	count_use     bool
 	count_not_use bool
@@ -67,6 +68,8 @@ func run(pass *analysis.Pass) (any, error) {
 	})
 	return nil, nil
 }
+
+// レシーバがポインタであれば1、そうでなければ2を返す
 func IsReceiverPointer(method *ast.FuncDecl, info *types.Info) int {
 	if method.Recv == nil {
 		return 0

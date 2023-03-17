@@ -1,5 +1,5 @@
 package funcs
-
+//メソッドがない場合のテスト
 type Calc struct{ atai1, atai2 int }
 
 func Add(p *Calc) int { 

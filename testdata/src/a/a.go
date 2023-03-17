@@ -1,5 +1,5 @@
 package a
-
+//基本のテスト
 type Calc struct{ atai1, atai2 int }
 
 func (p *Calc) Add() int { // want "use pointer"

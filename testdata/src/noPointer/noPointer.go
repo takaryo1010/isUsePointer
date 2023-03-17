@@ -1,5 +1,6 @@
 package noPointer
 
+//値レシーバのみの時のテスト
 type Calc struct{ atai1, atai2 int }
 
 func (p Calc) Add() int { //want "not use pointer"

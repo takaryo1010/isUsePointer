@@ -1,5 +1,5 @@
 package methods
-
+//レシーバがポインタレシーバと値レシーバで混ざっているテスト
 type Calc struct{ atai1, atai2 int }
 
 func (p *Calc) Add() int { // want "use pointer"
