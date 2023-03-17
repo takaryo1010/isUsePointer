@@ -24,6 +24,7 @@ var Analyzer = &analysis.Analyzer{
 type isUsePointerResult struct {
 	count_use     bool
 	count_not_use bool
+	filename      string
 }
 
 func run(pass *analysis.Pass) (any, error) {
@@ -33,8 +34,13 @@ func run(pass *analysis.Pass) (any, error) {
 		(*ast.FuncDecl)(nil),
 	}
 	info := pass.TypesInfo
-	res := isUsePointerResult{false, false}
-
+	var res isUsePointerResult
+	new_fname := pass.Fset.File(pass.Files[0].Pos()).Name()
+	if res.filename != new_fname {
+		res.filename = new_fname
+		res.count_not_use = false
+		res.count_use = false
+	}
 	inspect.Preorder(nodeFilter, func(n ast.Node) {
 		switch n := n.(type) {
 		case *ast.FuncDecl:
@@ -43,7 +49,7 @@ func run(pass *analysis.Pass) (any, error) {
 			case 1:
 				res.count_use = true
 				if res.count_not_use {
-					pass.Reportf(n.Pos(), "Mixed use and non-use of pointers")
+					pass.Reportf(n.Pos(), "use pointer & Mixed use and non-use of pointers")
 				} else {
 					pass.Reportf(n.Pos(), "use pointer")
 				}
@@ -51,7 +57,7 @@ func run(pass *analysis.Pass) (any, error) {
 			case 2:
 				res.count_not_use = true
 				if res.count_use {
-					pass.Reportf(n.Pos(), "Mixed use and non-use of pointers")
+					pass.Reportf(n.Pos(), "not use pointer & Mixed use and non-use of pointers")
 				} else {
 					pass.Reportf(n.Pos(), "not use pointer")
 				}

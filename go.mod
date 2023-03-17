@@ -3,7 +3,6 @@ module isUsePointer
 go 1.20
 
 require (
-	github.com/SEKOIA-IO/go-libaudit/v2 v2.3.5
 	github.com/gostaticanalysis/testutil v0.4.0
 	golang.org/x/tools v0.1.5
 )
@@ -16,4 +15,5 @@ require (
 	golang.org/x/mod v0.6.0-dev // indirect
 	golang.org/x/sys v0.6.0 // indirect
 	golang.org/x/text v0.3.3 // indirect
+	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 )
